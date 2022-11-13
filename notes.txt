@@ -1,0 +1,22 @@
+User, Product, Purchase
+
+>>> add user id name (incluir isso num arquivo cvs)
+>>> rename user id newname
+>>> delete user id
+>>> show user id (ver somente o que tem esse id)
+>>> show user (ver todos)
+
+>>> add product id name 
+>>> rename product id newname 
+>>> delete product id 
+>>> show product id (ver somente o que tem esse id)
+>>> show product (ver todos)
+
+>>> add purchase id userId productId
+>>> delete purchase id
+>>> show purchase id
+>>> show purchase 
+
+(quando mostrar a compra, mostrar o nome do usuário e o nome do produto)
+
+Persistir isso em arquivos .csv

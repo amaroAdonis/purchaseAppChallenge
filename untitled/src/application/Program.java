@@ -1,9 +1,8 @@
-package Application;
+package application;
 
-import Entities.Product;
-import Entities.User;
+import entities.Product;
+import entities.User;
 
-import javax.crypto.spec.PSource;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -46,6 +45,7 @@ public class Program {
                     sc.nextLine();
 
                     try (BufferedWriter bw = new BufferedWriter(new FileWriter(userPath))) {
+
 
                         bw.write(user.toString());
                         bw.newLine();

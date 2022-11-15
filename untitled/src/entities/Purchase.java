@@ -1,7 +1,4 @@
-package Entities;
-
-import Entities.Product;
-import Entities.User;
+package entities;
 
 public class Purchase{
 

@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 public class Product {
 
@@ -28,7 +28,6 @@ public class Product {
     public String toString() {
         return name
                 + ","
-                + id
-                + ";";
+                + id;
     }
 }

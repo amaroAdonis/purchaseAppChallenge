@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 public class User {
 
@@ -23,8 +23,7 @@ public class User {
     public String toString() {
         return getName()
                 + ","
-                +getId()
-                + ";";
+                +getId();
 
     }
 }

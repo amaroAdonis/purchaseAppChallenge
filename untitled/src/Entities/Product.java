@@ -2,35 +2,33 @@ package Entities;
 
 public class Product {
 
-    private String productName;
-    private Integer productId;
+    private String name;
+    private Integer id;
 
-    public Product(String productName, Integer productId) {
-        this.productName = productName;
-        this.productId = productId;
+    public Product() {
     }
 
-    public String getProductName() {
-        return productName;
+    public String getName() {
+        return name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
-        return "Product: "
-                +productName
-                + '\''
-                + ", Product ID: " + productId;
+        return name
+                + ","
+                + id
+                + ";";
     }
 }

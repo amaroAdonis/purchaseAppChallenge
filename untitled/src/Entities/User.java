@@ -2,35 +2,29 @@ package Entities;
 
 public class User {
 
-    private String userName;
-    private Integer userId;
+    private String name;
+    private Integer id;
 
-    public User(String userName, Integer userId) {
-        this.userName = userName;
-        this.userId = userId;
+    public User(){
     }
-
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
-
-    public void setUsername(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public Integer getUserId() {
-        return userId;
+    public Integer getId() {
+        return id;
     }
-
-    public void setId(Integer userId) {
-        this.userId = userId;
+    public void setId(Integer id) {
+        this.id = id;
     }
-
     @Override
     public String toString() {
-        return "User name: "
-                + userName
-                + '\''
-                + ", User ID: " + userId;
+        return getName()
+                + ","
+                +getId()
+                + ";";
+
     }
 }

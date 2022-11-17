@@ -1,10 +1,8 @@
 package entities;
 
-import org.w3c.dom.ls.LSOutput;
-
 public class User {
-
     private String name;
+    private Integer age;
     private Integer id;
 
     public User(){
@@ -21,13 +19,17 @@ public class User {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     @Override
     public String toString() {
-        return name
-                + ","
-                +id;
-
-
-
+        return name + "," + age + "," + id;
     }
 }

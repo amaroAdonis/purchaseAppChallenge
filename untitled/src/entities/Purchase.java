@@ -3,40 +3,33 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Purchase<T>{
+public class Purchase {
 
-    Product product = new Product();
-    User user = new User();
-    ArrayList<T> list = new ArrayList<T>();
+    private Integer id;
+    private Product product;
+    private User user;
 
-    public Purchase(){
-
+    public Integer getId() {
+        return id;
     }
 
-    public Purchase(Product product, User user, ArrayList<T> list) {
-        this.product = product;
-        this.user = user;
-        this.list = list;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 
     public void setProduct(Product product) {
         this.product = product;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public void setUser(User user) {
         this.user = user;
-
-    }
-
-    public ArrayList<T> getList() {
-        return list;
-    }
-
-    public void setList(ArrayList<T> list) {
-        this.list = list;
-    }
-
-    private String addPurchase (){
-        return user.toString() + product.toString();
     }
 }

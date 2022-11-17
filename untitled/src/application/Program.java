@@ -1,17 +1,14 @@
 package application;
 
 import entities.Product;
+import entities.Purchase;
 import entities.User;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Program {
 
-    public static String main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 
         Scanner sc = new Scanner(System.in);
         String userPath = "D:\\adonis\\estudosJavaDev\\purchaseAppChallenge\\users.csv";
@@ -31,28 +28,32 @@ public class Program {
 
             if (answer2 == 'u') {
 
-                System.out.print("How many users will be entered?");
+                System.out.print("How many users will be entered? ");
                 int total = sc.nextInt();
 
                 for (int i = 1; i <= total; i++) {
                     System.out.print("Please, enter the User Name: ");
+                    sc.nextLine();
                     String userName = sc.nextLine();
                     User user = new User();
                     user.setName(userName);
                     System.out.print("Now, enter the User Number: ");
                     int userId = sc.nextInt();
-                    user.setId(userId);
                     sc.nextLine();
+                    user.setId(userId);
 
-                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(userPath))) {
+
+                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(userPath, true))) {
 
 
                         bw.write(user.toString());
                         bw.newLine();
 
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                 }
 
             } else if (answer2 == 'p') {
@@ -67,8 +68,9 @@ public class Program {
                     product.setName(productName);
                     System.out.print("Now, enter the Product Number: ");
                     int productId = sc.nextInt();
-                    product.setId(productId);
                     sc.nextLine();
+                    product.setId(productId);
+
 
                     try (BufferedWriter bw = new BufferedWriter(new FileWriter(productPath))) {
 
@@ -78,29 +80,84 @@ public class Program {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    sc.nextLine();
 
 
                 }
-            } else {
-                System.out.print("How many purchases will be entered?");
+            } else if (answer2 == 'b') {
+                Purchase<Object> purchase = new Purchase<>();
+                System.out.print("Please, enter your user name: ");
+                String name = sc.nextLine();
+                System.out.println("How many products do you want to buy? ");
                 int total = sc.nextInt();
                 for (int i = 1; i <= total; i++) {
-                    System.out.print("Please, enter the product name to search it:");
+                    System.out.println("Please, insert the product number:");
+                    int productToBuy = sc.nextInt();
 
-                    Scanner scanner = new Scanner(new File(purchasePath));
-                    while (sc.hasNextLong()) {
-                        long aLong = sc.nextLong();
+                    try (BufferedReader br = new BufferedReader(new FileReader(userPath))) {
+                        name = br.readLine();
+
+                        try (BufferedWriter bw = new BufferedWriter(new FileWriter(purchasePath))) {
+                            bw.write(name);
+
+                        } catch (IOException e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
+                    } catch (IOException e) {
+                        System.out.println("Error: " + e.getMessage());
                     }
 
+                    try (BufferedReader br2 = new BufferedReader(new FileReader(productPath))) {
+                        productToBuy = br2.read();
 
+                        try (BufferedWriter bw = new BufferedWriter(new FileWriter(purchasePath))){
+                            bw.write(productToBuy);
+                            bw.newLine();
+
+
+                        }catch (IOException e2) {
+                            System.out.println("Error: " + e2.getMessage());
+                        }
+                    } catch (IOException e3) {
+                        System.out.println("Error: " + e3.getMessage());
+                    }
 
                 }
+
+
+            } else {
+                System.out.println("Invalid value. Please, insert a valid value (u/p/b)");
             }
 
-        } else if () {
+        } else if (answer == 'd') {
+            System.out.println("What do you want to delete (Users (u) / Products (p) / Purchases (b)) ");
+            char answer3 = sc.next().charAt(0);
+            if (answer3 == 'u') {
+                System.out.println("Please, insert an user ID Number: ");
+                int idToDelete = sc.nextInt();
+                try (BufferedReader br = new BufferedReader(new FileReader(userPath))) {
+                    int line = br.read();
+                    while (line == idToDelete) {
 
+                        System.out.println(line);
+                        line = br.read();
 
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error: " + e.getMessage());
+            }
         }
+            }
+
+
+
+
+         else if (answer == 's') {
+            System.out.println();
+        }
+
+
+
 
         sc.close();
     }

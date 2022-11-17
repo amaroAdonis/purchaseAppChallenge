@@ -1,5 +1,7 @@
 package entities;
 
+import org.w3c.dom.ls.LSOutput;
+
 public class User {
 
     private String name;
@@ -21,9 +23,11 @@ public class User {
     }
     @Override
     public String toString() {
-        return getName()
+        return name
                 + ","
-                +getId();
+                +id;
+
+
 
     }
 }

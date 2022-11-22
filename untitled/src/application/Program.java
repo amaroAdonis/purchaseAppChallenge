@@ -3,6 +3,8 @@ package application;
 import entities.Product;
 import entities.Purchase;
 import entities.User;
+import parser.CsvParser;
+import parser.ProductCsvParser;
 import parser.UserCsvParser;
 
 import java.io.*;
@@ -38,8 +40,8 @@ public class Program {
     }
 
     private static Product getNewProduct(Scanner sc) {
-        String productName = askStringInput(sc,"Please, enter the Product");
-        int productId = askIntegerInput(sc,"Now, enter the Product Number");
+        String productName = askStringInput(sc, "Please, enter the Product");
+        int productId = askIntegerInput(sc, "Now, enter the Product Number");
 
         Product product = new Product();
         product.setName(productName);
@@ -48,8 +50,8 @@ public class Program {
     }
 
     private static Purchase getNewPurchase(Scanner sc) {
-        var userId = askIntegerInput(sc,"What user is purchasing");
-        var productId = askIntegerInput(sc,"What product is being purchased");
+        var userId = askIntegerInput(sc, "What user is purchasing");
+        var productId = askIntegerInput(sc, "What product is being purchased");
         var purchaseId = askIntegerInput(sc, "What id for this purchase");
 
         User user = new User();
@@ -67,7 +69,7 @@ public class Program {
     }
 
     private static void deleteUserInList(Integer id, List<User> users) {
-        for (int i=0; i < users.size(); i++) {
+        for (int i = 0; i < users.size(); i++) {
             var user = users.get(i);
 
             if (id == user.getId()) {
@@ -83,51 +85,72 @@ public class Program {
         parser.storeAll(users);
     }
 
-    private static void runInsertActions(Scanner sc, UserCsvParser userCsvParser) throws IOException {
-        System.out.println("What do you want to insert? ");
-
-        String answer2 = askStringInput(sc,"Users (u) / Products (p) / Purchases (b)");
-        switch (answer2) {
-            case "u":
-                var user = getNewUser(sc);
-                userCsvParser.append(user);
-                break;
-            case "p":
-                var product = getNewProduct(sc);
-                // todo: productCsvParser.store(product);
-                break;
-            case "b":
-                var purchage = getNewPurchase(sc);
-                // todo: purchaseCsvParser.store(product);
-                break;
-        }
-    }
-
-    public static void main(String[] args) {
-
-        String userPath = "D:\\adonis\\estudosJavaDev\\purchaseAppChallenge\\users.csv";
-        String productPath = "D:\\adonis\\estudosJavaDev\\purchaseAppChallenge\\products.csv";
-        String purchasePath = "D:\\adonis\\estudosJavaDev\\purchaseAppChallenge\\purchases.csv";
-
-        String columnSymbol = ",";
-        UserCsvParser userCsvParser = new UserCsvParser(userPath, columnSymbol);
-
-        try (Scanner sc = new Scanner(System.in)) {
-            String answer = getInitialAction(sc);
-            switch (answer) {
-                case "i":
-                    runInsertActions(sc, userCsvParser);
-                    break;
-                case "d":
-
-                    break;
-                case "s":
-                    break;
+    private static void runDeleteActions(Scanner sc, ProductCsvParser productCsvParser) throws IOException {
+        System.out.println("What do you want to delete? ");
+        String deleteAnswer = askStringInput(sc, "Users (u) / Products (p) / Purchases (b)");
+        switch (deleteAnswer) {
+            case "u" -> {
+            }
+            case "p" -> {
+            }
+            case "b" -> {
             }
         }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
     }
+
+    private static void runInsertActions(Scanner sc, UserCsvParser userCsvParser, CsvParser<Product> productCsvParser, CsvParser<Purchase> purchaseCsvParser) throws IOException {
+        System.out.println("What do you want to insert? ");
+
+        String answer2 = askStringInput(sc, "Users (u) / Products (p) / Purchases (b)");
+        switch (answer2) {
+            case "u" -> {
+                var user = getNewUser(sc);
+                userCsvParser.append(user);
+            }
+            case "p" -> {
+                var product = getNewProduct(sc);
+                productCsvParser.append(product);
+            }
+            case "b" -> {
+                var purchase = getNewPurchase(sc);
+                purchaseCsvParser.append(purchase);
+            }
+        }
+    }
+
+        public static void main (String[]args){
+
+            String userPath = "D:\\adonis\\estudosJavaDev\\purchaseAppChallenge\\users.csv";
+            String productPath = "D:\\adonis\\estudosJavaDev\\purchaseAppChallenge\\products.csv";
+            String purchasePath = "D:\\adonis\\estudosJavaDev\\purchaseAppChallenge\\purchases.csv";
+
+            String columnSymbol = ",";
+            UserCsvParser userCsvParser = new UserCsvParser(userPath, columnSymbol);
+            ProductCsvParser productCsvParser = new ProductCsvParser(productPath, columnSymbol);
+
+            try (Scanner sc = new Scanner(System.in)) {
+                String answer = getInitialAction(sc);
+                switch (answer) {
+                    case "i":
+                        runInsertActions(sc, userCsvParser, productCsvParser, purchaseCsvParser);
+                        break;
+                    case "d":
+                        runDeleteActions(sc, productCsvParser);
+                        break;
+                    case "s":
+                        break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+
+
+
+
 }

@@ -1,5 +1,5 @@
 package application;
-
+/*
 public class InsertStrategy implements Strategy {
 
     @Override
@@ -20,6 +20,7 @@ public class InsertStrategy implements Strategy {
                 var purchage = getNewPurchase(sc);
                 // todo: purchaseCsvParser.store(product);
                 break;
-        }*/
+        }
     }
 }
+*/

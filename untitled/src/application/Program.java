@@ -5,9 +5,11 @@ import entities.Purchase;
 import entities.User;
 import parser.CsvParser;
 import parser.ProductCsvParser;
+import parser.PurchaseCsvParser;
 import parser.UserCsvParser;
 
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,7 +23,8 @@ public class Program {
 
     private static String askStringInput(Scanner sc, String message) {
         System.out.printf("%s :", message);
-        return sc.nextLine();
+        String answer = sc.nextLine();
+        return answer;
     }
 
     private static Integer askIntegerInput(Scanner sc, String message) {
@@ -79,28 +82,88 @@ public class Program {
         }
     }
 
+    private static void deleteProductInList(Integer id, List<Product> products) {
+        for (int i = 0; i < products.size(); i++) {
+            var product = products.get(i);
+
+            if (id == product.getId()) {
+                products.remove(i);
+                return;
+            }
+        }
+    }
+
+    private static void deletePurchaseInList(Integer id, List<Purchase> purchases) {
+        for (int i = 0; i < purchases.size(); i++) {
+            var purchase = purchases.get(i);
+
+            if (id == purchase.getId()) {
+                purchases.remove(i);
+                return;
+            }
+        }
+    }
+
     private static void deleteUser(Integer id, UserCsvParser parser) throws IOException {
         var users = parser.readAll();
         deleteUserInList(id, users);
         parser.storeAll(users);
     }
 
-    private static void runDeleteActions(Scanner sc, ProductCsvParser productCsvParser) throws IOException {
+    private static void deleteProduct(Integer id, ProductCsvParser parser) throws IOException {
+        var products = parser.readAll();
+        deleteProductInList(id, products);
+        parser.storeAll(products);
+    }
+
+    private static void deletePurchase(Integer id, PurchaseCsvParser parser) throws IOException {
+        var purchases = parser.readAll();
+        deletePurchaseInList(id, purchases);
+        parser.storeAll(purchases);
+    }
+
+    private static void runDeleteActions(Scanner sc, UserCsvParser userCsvParser, ProductCsvParser productCsvParser, PurchaseCsvParser purchaseCsvParser) throws IOException {
         System.out.println("What do you want to delete? ");
-        String deleteAnswer = askStringInput(sc, "Users (u) / Products (p) / Purchases (b)");
+        String deleteAnswer = askStringInput(sc, "Users (u) / Products (p) / Purchases (b): ");
         switch (deleteAnswer) {
             case "u" -> {
+           Integer userToDelete = askIntegerInput(sc, "Please, insert user Id number: ");
+            deleteUser(userToDelete, userCsvParser);
             }
             case "p" -> {
+            Integer productToDelete = askIntegerInput(sc, "Please, insert product Id number: ");
+            deleteProduct(productToDelete, productCsvParser);
             }
             case "b" -> {
+            Integer purchaseToDelete = askIntegerInput(sc, "Please, insert purchase Id number: ");
+            deletePurchase(purchaseToDelete, purchaseCsvParser);
             }
         }
 
 
     }
 
-    private static void runInsertActions(Scanner sc, UserCsvParser userCsvParser, CsvParser<Product> productCsvParser, CsvParser<Purchase> purchaseCsvParser) throws IOException {
+    private static void runShowActions (Scanner sc, UserCsvParser userCsvParser, ProductCsvParser productCsvParser, PurchaseCsvParser purchaseCsvParser) throws IOException {
+
+        System.out.println("What do you want to delete? ");
+        String showAnswer = askStringInput(sc, "Users (u) / Products (p) / Purchases (b): ");
+        switch (showAnswer) {
+            case "u" -> {
+                var showUsers = userCsvParser.readAll();
+                System.out.println(showUsers);
+            }
+            case "p" -> {
+                var showProduct = productCsvParser.readAll();
+                System.out.println(showProduct);
+            }
+            case "b" -> {
+                var showPurchases = purchaseCsvParser.readAll();
+                System.out.println(showPurchases);
+            }
+        }
+    }
+
+    private static void runInsertActions(Scanner sc, UserCsvParser userCsvParser, ProductCsvParser productCsvParser, PurchaseCsvParser purchaseCsvParser) throws IOException {
         System.out.println("What do you want to insert? ");
 
         String answer2 = askStringInput(sc, "Users (u) / Products (p) / Purchases (b)");
@@ -129,18 +192,14 @@ public class Program {
             String columnSymbol = ",";
             UserCsvParser userCsvParser = new UserCsvParser(userPath, columnSymbol);
             ProductCsvParser productCsvParser = new ProductCsvParser(productPath, columnSymbol);
+            PurchaseCsvParser purchaseCsvParser = new PurchaseCsvParser(purchasePath, columnSymbol);
 
             try (Scanner sc = new Scanner(System.in)) {
                 String answer = getInitialAction(sc);
                 switch (answer) {
-                    case "i":
-                        runInsertActions(sc, userCsvParser, productCsvParser, purchaseCsvParser);
-                        break;
-                    case "d":
-                        runDeleteActions(sc, productCsvParser);
-                        break;
-                    case "s":
-                        break;
+                    case "i" -> runInsertActions(sc, userCsvParser, productCsvParser, purchaseCsvParser);
+                    case "d" -> runDeleteActions(sc, userCsvParser, productCsvParser, purchaseCsvParser);
+                    case "s" -> runShowActions(sc, userCsvParser, productCsvParser, purchaseCsvParser);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

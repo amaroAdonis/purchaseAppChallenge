@@ -2,10 +2,10 @@ package parser;
 
 import entities.Product;
 import entities.Purchase;
+import entities.User;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PurchaseCsvParser implements CsvParser <Purchase> {
@@ -37,19 +37,41 @@ public class PurchaseCsvParser implements CsvParser <Purchase> {
 
     @Override
     public void storeAll(List<Purchase> purchases) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))){
-              for (Purchase purchase: purchases){
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (Purchase purchase : purchases) {
                 bw.write(entityToString(purchase));
                 bw.newLine();
             }
-
-
         }
-
     }
 
     @Override
     public List<Purchase> readAll() throws IOException {
-        return null;
+        List<Purchase> purchases = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))){
+            for (String line : br.lines().toList()){
+                String[] splitValues = line.split(columnSymbol);
+
+                Integer id = Integer.valueOf(splitValues[0]);
+                Integer userId = Integer.valueOf(splitValues[1]);
+                Integer productId = Integer.valueOf(splitValues[2]);
+
+                User user = new User();
+                user.setId(userId);
+                Product product = new Product();
+                product.setId(productId);
+
+                Purchase purchase = new Purchase();
+                purchase.setId(id);
+                purchase.setUser(user);
+                purchase.setProduct(product);
+
+                purchases.add(purchase);
+            }
+
+        }
+        return purchases;
     }
 }
+

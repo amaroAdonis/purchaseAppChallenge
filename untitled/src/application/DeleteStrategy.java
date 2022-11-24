@@ -1,6 +1,6 @@
 package application;
 
-public class DeleteStrategy implements Strategy {
+/*public class DeleteStrategy implements Strategy {
 
     @Override
     public void run() {
@@ -22,6 +22,6 @@ public class DeleteStrategy implements Strategy {
                 // todo: purchaseCsvParser.store(product);
                 break;
         }
-         */
+
     }
-}
+}*/
